@@ -2,20 +2,17 @@ package mempool
 
 import (
 	"context"
+
+	tx "cosmossdk.io/core/transaction"
 )
 
-// TODO here until we rebase to get the txcodec items
-type TxValidator[T any] interface {
-	ValidateTx(ctx context.Context, tx T, simulate bool) (context.Context, error)
+var _ Mempool[tx.Tx] = NoOpMempool[tx.Tx]{}
+
+type NoOpMempool[T tx.Tx] struct {
+	txValidator tx.Validator[T]
 }
 
-var _ Mempool[any] = NoOpMempool[any]{}
-
-type NoOpMempool[T any] struct {
-	txValidator TxValidator[T]
-}
-
-func NewNoopMempool[T any](txv TxValidator[T]) *NoOpMempool[T] {
+func NewNoopMempool[T tx.Tx](txv tx.Validator[T]) *NoOpMempool[T] {
 	return &NoOpMempool[T]{txValidator: txv}
 }
 
@@ -29,8 +26,8 @@ func (s *NoOpMempool[T]) Stop() error {
 	return nil
 }
 
-func (npm NoOpMempool[T]) Insert(ctx context.Context, tx T) error {
-	_, err := npm.txValidator.ValidateTx(ctx, tx, false)
+func (npm NoOpMempool[T]) Insert(ctx context.Context, tx T) map[[32]byte]error {
+	_, err := npm.txValidator.Validate(ctx, []T{tx}, false)
 	return err
 }
 
@@ -39,4 +36,4 @@ func (NoOpMempool[T]) GetTxs(ctx context.Context, size uint32) (any, error) {
 }
 
 func (NoOpMempool[T]) CountTx() uint32  { return 0 }
-func (NoOpMempool[T]) Remove(any) error { return nil }
+func (NoOpMempool[T]) Remove([]T) error { return nil }
