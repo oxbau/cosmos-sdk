@@ -48,7 +48,12 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 ### Improvements
 
+<<<<<<< HEAD
 * (server) [#18478](https://github.com/cosmos/cosmos-sdk/pull/18478) Add command flag to disable colored logs.
+=======
+* (telemetry) [#18646] (https://github.com/cosmos/cosmos-sdk/pull/18646) Enable statsd and dogstatsd telemetry sinks
+* (types) [#18440](https://github.com/cosmos/cosmos-sdk/pull/18440) Add `AmountOfNoValidation` to `sdk.DecCoins`.
+>>>>>>> 3ba1c5bf2 (feat(telemetry): enable `statsd` and `dogstatsd` telemetry sinks (#18646))
 * (x/gov) [#18025](https://github.com/cosmos/cosmos-sdk/pull/18025) Improve `<appd> q gov proposer` by querying directly a proposal instead of tx events. It is an alias of `q gov proposal` as the proposer is a field of the proposal.
 * (version) [#18063](https://github.com/cosmos/cosmos-sdk/pull/18063) Allow to define extra info to be displayed in `<appd> version --long` command.
 * (codec/unknownproto)[#18541](https://github.com/cosmos/cosmos-sdk/pull/18541) Remove the use of "protoc-gen-gogo/descriptor" in favour of using the official protobuf descriptorpb types inside unknownproto.
